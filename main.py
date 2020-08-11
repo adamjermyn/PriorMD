@@ -8,11 +8,7 @@ from uuids import add_uuids, get_uuid
 from comparator import compute_rankings, pick_next_comparison
 console = Console()
 
-
-
 g = glob('/Users/ajermyn/Dropbox/Notes/Brainstorming/*.md', recursive=True) # Find Files
-
-g = g[:2]
 
 # Add UUID's if they aren't already in the files
 for fi in g:
@@ -57,9 +53,9 @@ with open('/Users/ajermyn/Dropbox/Notes/Priorities/comparisons.dat','a') as fi:
 		console.print(grid)
 
 		# Get the comparison data from the user
-		delta_log_value = float(console.input('Enter ln[Value if Left if Successful / Value if Right is Successful]: '))
-		delta_log_p = float(console.input('Enter ln[Prob[Left is Successful] / Proba[Right is Successful]]: '))
-		delta_log_time = float(console.input('Enter ln[Time Estimate for Left / Time Estimate for Right]: '))
+		delta_log_value = float(console.input('Enter log3[Value if Left if Successful / Value if Right is Successful]: '))
+		delta_log_p = float(console.input('Enter log3[Prob[Left is Successful] / Proba[Right is Successful]]: '))
+		delta_log_time = float(console.input('Enter log3[Time Estimate for Left / Time Estimate for Right]: '))
 
 		# Store the comparison
 		comparisons.append([i, j, delta_log_value, delta_log_p, delta_log_time])
@@ -73,4 +69,4 @@ uuids, uuid_to_index, scores = compute_rankings(comparisons)
 inds = np.argsort(scores)[::-1]
 for i in inds:
 	console.print(Markdown(flat_split_contents[uuids[i]]))
-	console.print('Expected Value / Time = ', round(np.exp(scores[i]),2))
+	console.print('Expected Value / Time = ', round(3**(scores[i]),2))
